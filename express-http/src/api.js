@@ -20,7 +20,9 @@ const multerConfig = {
   //A means of ensuring only images are uploaded. 
   fileFilter: (req, file, next) => {
     if (!file) {
-      next();
+      next({
+        error: 'Invalid file type.'
+      });
     }
     const image = file.mimetype.startsWith('image/');
     if (image) {
@@ -28,15 +30,15 @@ const multerConfig = {
       next(null, true);
     } else {
       console.log("file not supported");
-
-      //TODO:  A better message response to user on failure.
-      return next();
+      return next(null, false);
     }
   }
 };
 
 router.post('/upload', multer(multerConfig).single('photo'), (req, res) => {
-  res.send('Complete!');
+  res.json({
+    done: true
+  });
 });
 
 export default router;
