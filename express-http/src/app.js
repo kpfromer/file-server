@@ -10,8 +10,7 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 app.use(bodyParser.json());
-app.use('/', express.static(path.join(__dirname, '..', 'build')));
-app.get('/app', (req, res) => res.sendFile(path.join(__dirname, 'app.html')))
+app.use(cors())
 
 const multerConfig = {
   storage: multer.diskStorage({
