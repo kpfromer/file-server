@@ -1,7 +1,7 @@
 import express from 'express';
-const path = require('path');
-const multer = require('multer');
-const bodyParser = require('body-parser');
+import path from 'path';
+import multer from 'multer';
+import bodyParser from 'body-parser';
 
 const app = express();
 const port = 3000;
@@ -16,12 +16,12 @@ app.get('/app', (req, res) => res.sendFile(path.join(__dirname, 'app.html')))
 const multerConfig = {
   storage: multer.diskStorage({
     //Setup where the user's file will go
-    destination: function (req, file, next) {
+    destination: (req, file, next) => {
       next(null, './');
     },
 
     //Then give the file a unique name
-    filename: function (req, file, next) {
+    filename: (req, file, next) => {
       console.log(file);
       const ext = file.mimetype.split('/')[1];
       next(null, file.fieldname + '-' + Date.now() + '.' + ext);
@@ -29,7 +29,7 @@ const multerConfig = {
   }),
 
   //A means of ensuring only images are uploaded. 
-  fileFilter: function (req, file, next) {
+  fileFilter: (req, file, next) => {
     if (!file) {
       next();
     }
@@ -46,7 +46,7 @@ const multerConfig = {
   }
 };
 
-app.post('/upload', multer(multerConfig).single('photo'), function (req, res) {
+app.post('/upload', multer(multerConfig).single('photo'), (req, res) => {
   res.send('Complete!');
 });
 
