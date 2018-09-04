@@ -10,9 +10,12 @@ const cache = new Cache();
 
 gulp.task('compile', function () {
   return gulp.src('./src/**/*.js') // your ES2015 code
-    .pipe(cache.filter()) // remember files
-    .pipe(babel({ presets: ['env'] })) // compile new ones
-    .pipe(cache.cache()) // cache them
+    // .pipe(cache.filter()) // remember files
+    .pipe(babel({ 
+      presets: ['@babel/env'],
+      plugins: ['@babel/transform-runtime']
+    })) // compile new ones
+    // .pipe(cache.cache()) // cache them
     .pipe(gulp.dest('./dist')) // write them
 });
 
