@@ -4,6 +4,11 @@ import './App.css';
 import Header from './Header';
 import FileList from './FileList';
 
+const apiUrl = process.env.NODE_ENV === 'production' ?
+  process.env.REACT_APP_API
+  :
+  'http://localhost:3000';
+
 class App extends Component {
 
   state = {
@@ -12,7 +17,7 @@ class App extends Component {
   }
 
   getFiles = () => 
-    fetch('http://localhost:3000/api/files')
+    fetch(`${apiUrl}/api/files`)
     .then(res => res.json())
     .then(({ files }) => this.setState({ currentFiles: files }));
   
@@ -27,7 +32,7 @@ class App extends Component {
     data.append('photo', this.uploadInput.files[0]);
     data.append('name', 'cats.jpg');
 
-    fetch('http://localhost:3000/api/upload', {
+    fetch(`${apiUrl}/api/upload`, {
       method: 'POST',
       body: data
     }).then(() => {
